@@ -14,11 +14,15 @@ void func(int x) {
 		n_arr[1] = 1;
 		return func(x + 1);
 	}
+	
 	if (x >= maxx) {
 		return;
 	}
+	if (n_arr[x] != 0) {
+		return func(x + 1);
+	}
 	for (int i = 2; i*x <= maxx;i++) {
-		n_arr[i * x] = 1;
+		n_arr[i * x] += 1;
 	}
 	return func(x + 1);
 }
@@ -39,12 +43,8 @@ int main(void) {
 		}
 		pq.pop();
 	}
-	for (int i = 1; i <= maxx; i++) {
+	for (int i = 1; i < maxx; i++) {
 		cout << i << " : " << n_arr[i] << ", ";
-		if (i % 10 == 0) {
-			cout << '\n';
-		}
 	}
-	
 	cout << cnt << '\n';
 }
