@@ -2,11 +2,11 @@
 #include <queue>
 using namespace std;
 int N, M, V;
-priority_queue<int,vector<int>,greater<int>> v[1000];
-priority_queue<int, vector<int>, greater<int>> v2[1000];
+priority_queue<int,vector<int>,greater<int>> v[1001];
+priority_queue<int, vector<int>, greater<int>> v2[1001];
 queue<int> q;
-bool visited[1000];
-bool visited2[1000];
+bool visited[1001];
+bool visited2[1001];
 void dfs(int x) {
 	if (!visited[x]) {
 		visited[x] = true;
