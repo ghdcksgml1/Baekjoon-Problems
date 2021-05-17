@@ -1,22 +1,18 @@
 #include <iostream>
-#include <queue>
+#include <algorithm>
 using namespace std;
-int N;
-int visited[1000001];
-queue<pair<int, int>> q;
-int dp(int x) {
-	if (x == 1) return 0;
-	if (x == 2) return 1;
-	if (x == 3) return 1;
-	if (visited[x] != 0) return visited[x];
-	
-	
-	return dp(x - 1) + 1;
-	if (x % 2 == 0) return (dp(x / 2) + 1);
-	if (x % 3 == 0) return (dp(x / 3) + 1);
-}
+int arr[1000001] = { 0, };
 
+void dp(int n) {
+	for (int i = 2; i <= n; i++) {
+		arr[i] = arr[i - 1] + 1; 
+		if (i % 2 == 0) arr[i] = min(arr[i], arr[i / 2] + 1);
+		if (i % 3 == 0) arr[i] = min(arr[i], arr[i / 3] + 1);
+	}
+}
 int main(void) {
-	cin >> N;
-	cout << dp(N) << '\n';
+	int n;
+	cin >> n;
+	dp(n);
+	cout << arr[n];
 }
