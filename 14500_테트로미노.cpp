@@ -7,17 +7,13 @@ int graph[500][500];
 bool visit[500][500];
 int dx[4] = { 1,-1,0,0 };
 int dy[4] = { 0,0,1,-1 };
-vector<pair<int, int>> pq;
 void dfs(int x,int y,int cnt,int sum) {
 	if (cnt == 4) {
 		Max = max(sum, Max);
 		return;
 	}
-	if (cnt < 0) {
-		return;
-	}
 	if (x < 0 || y < 0 || x >= N || y >= M) return;
-	if (cnt==0 || !visit[x][y]) {
+	if (!visit[x][y]) {
 		visit[x][y] = true;
 		sum += graph[x][y];
 		for (int dir = 0; dir < 4; dir++) {
@@ -31,7 +27,7 @@ void dfs(int x,int y,int cnt,int sum) {
 		return;
 	}
 }
-void anthoer_rect(int i, int j) {
+void anthoer_case(int i, int j) {
 	int sum = graph[i][j];
 	for (int dir = 0; dir < 4; dir++) {
 		int nx = i + dx[dir];
@@ -52,10 +48,12 @@ void anthoer_rect(int i, int j) {
 		}
 	}
 }
+
 void init() {
 	cin.tie(0); cout.tie(0);
 	ios::sync_with_stdio(0);
 }
+
 int main(void) {
 	init();
 	cin >> N >> M;
@@ -66,13 +64,10 @@ int main(void) {
 	}
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			pq.push_back({i,j});
-			anthoer_rect(i, j);
+			dfs(i, j, 0, 0);
+			anthoer_case(i, j);
 		}
 	}
-	while (!pq.empty()) {
-		auto cur = pq.back(); pq.pop_back();
-		dfs(cur.first, cur.second, 0, 0);
-	}
+
 	cout << Max << '\n';
 }
