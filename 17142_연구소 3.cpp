@@ -12,40 +12,20 @@ bool back_visit[11];
 
 int dx[4] = { 1,-1,0,0 };
 int dy[4] = { 0,0,1,-1 };
-queue<pair<pair<int, int>,int>> q;
+queue<pair<int, int>> q;
 vector<pair<int, int>> virus_location;
 priority_queue<int, vector<int>, greater<int>> pq;
+
 void BFS() {
 	while (!q.empty()) {
-		int curX = q.front().first.first; int curY = q.front().first.second; int curZ = q.front().second; q.pop();
+		int curX = q.front().first; int curY = q.front().second; q.pop();
 		for (int dir = 0; dir < 4; dir++) {
 			int nx = curX + dx[dir];
 			int ny = curY + dy[dir];
 			if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
 			if (visit[nx][ny] > 0 || graph[nx][ny] == 1) continue;
-			// 비활성->활성이 된 바이러스
-			if (graph[curX][curY] == 2 && curZ == 1) {
-				// 다음 좌표가 활성인지 비활성인지 확인
-				if (graph[nx][ny] == 2 && visit[nx][ny] == 0) {
-					visit[nx][ny] = visit[curX][curY];
-					q.push({ { nx,ny },1 });
-					continue;
-				}
-				else {
-					visit[nx][ny] = visit[curX][curY] + 2;
-					q.push({ { nx,ny },0 });
-					continue;
-				}
-			}
-			// 비활성 바이러스면
-			if (graph[nx][ny] == 2 && visit[nx][ny] == 0) {
-				visit[nx][ny] = visit[curX][curY];
-				q.push({ { nx,ny },1 });
-				continue;
-			}
-			
 			visit[nx][ny] = visit[curX][curY] + 1;
-			q.push({ { nx,ny },0 });
+			q.push({ nx,ny });
 		}
 	}
 }
@@ -54,7 +34,7 @@ void backTracking(int x,int prev) {
 		for (int i = 0; i < virus_location.size(); i++) {
 			// 방문하고 있는 vector값이면
 			if (back_visit[i]) {
-				q.push({ { virus_location[i].first,virus_location[i].second },0 });
+				q.push( { virus_location[i].first,virus_location[i].second });
 				visit[virus_location[i].first][virus_location[i].second] = 1;
 			}
 		}
@@ -62,6 +42,8 @@ void backTracking(int x,int prev) {
 		Max_dist = 0;
 		for (int cpy_i = 0; cpy_i < N; cpy_i++) {
 			for (int cpy_j = 0; cpy_j < N; cpy_j++) {
+				// 만약 비활성 바이러스라면 continue
+				if (graph[cpy_i][cpy_j] == 2 && visit[cpy_i][cpy_j] != 1) continue;
 				Max_dist = max(Max_dist, visit[cpy_i][cpy_j]);
 			}
 		}
@@ -75,6 +57,8 @@ void backTracking(int x,int prev) {
 			}
 		}
 
+		// Max_dist가 -1이 아니면 
+		// =(모든 빈 칸에 바이러스를 퍼뜨릴수 없는 경우가 아니면)
 		if (Max_dist != -1) {
 			cnt++;
 			pq.push(Max_dist);
