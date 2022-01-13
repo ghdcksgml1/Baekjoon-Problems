@@ -1,4 +1,4 @@
-// 언어 : JAVA , (성공/실패) : 1/4 , 메모리 : 212096 KB , 시간 : 892 ms
+// 언어 : JAVA , (성공/실패) : 1/4 , 메모리 : 213712 KB , 시간 : 964 ms
 import java.util.*;
 import java.io.*;
 
@@ -73,7 +73,7 @@ public class Main {
         long[] arr = new long[N];
 
         for(int i=0;i<N;i++){
-            arr[i] = Integer.parseInt(br.readLine());
+            arr[i] = Long.parseLong(br.readLine());
         }
 
         build(arr,N);
