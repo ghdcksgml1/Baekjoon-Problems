@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <deque>
+#include <list>
 #include <string.h> // memset
 #include <math.h>
 #define SIZE 101010
@@ -23,7 +23,7 @@ int arr[SIZE];
 int mo_res[SIZE];
 int cnt_num[SIZE];
 
-deque<int> mo_idx[SIZE];
+list<int> mo_idx[SIZE];
 
 // mo's 알고리즘
 bool compare(Query a, Query b){
