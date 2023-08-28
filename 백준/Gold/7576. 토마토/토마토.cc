@@ -18,10 +18,7 @@ typedef long long ll;
 int dx[4] = {1, -1, 0, 0};
 int dy[4] = {0, 0, 1, -1};
 
-int graph[1001][1001];
 int dist[1001][1001];
-
-vector<pii > ik_to; // 익은 토마토
 
 int main(void) {
     // 입출력 속도 최적화
@@ -32,27 +29,15 @@ int main(void) {
     int n, m;
     cin >> m >> n;
 
+    queue<pii > Q;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            int tmp;
-            cin >> tmp;
-            graph[i][j] = tmp;
+            cin >> dist[i][j];
 
-            if (tmp == 1) {
-                ik_to.push_back({i, j});
-            }
-
-            if (tmp == -1) {
-                dist[i][j] = -1;
+            if (dist[i][j] == 1) {
+                Q.push({i, j});
             }
         }
-    }
-
-    queue<pii > Q;
-    for (pii ik: ik_to) {
-        // 넣고, 방문 표시
-        Q.push({ik.xx, ik.yy});
-        dist[ik.xx][ik.yy] = 1;
     }
 
     while (!Q.empty()) {
