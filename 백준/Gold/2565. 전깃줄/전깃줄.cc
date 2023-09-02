@@ -24,7 +24,7 @@ bool cmp(pii v1, pii v2) {
     return v1.xx < v2.xx;
 }
 
-int dp[102];
+int dp[102], lis[102];
 
 int main(void){
     // 입출력 속도 최적화
@@ -43,19 +43,16 @@ int main(void){
     sort(v.begin(), v.end(), cmp);
 
     // 가장 긴 증가하는 부분 수열
-    int mx = 0;
+    int len = 0;
     for (int i=0; i<n; i++) {
-        int tmp = 0;
-        for (int j=0; j<i; j++) {
-            if (v[i].yy > v[j].yy) {
-                tmp = max(tmp, dp[j]);
-            }
-        }
-        dp[i] = tmp + 1;
-        mx = max(mx, dp[i]);
+        int tmp = v[i].yy;
+        auto pos = lower_bound(lis, lis+len, tmp);
+        *pos = tmp;
+        if (pos == lis + len)
+            len++;
     }
 
-    cout << n - mx << '\n';
+    cout << n - len << '\n';
 
     return 0;
 }
