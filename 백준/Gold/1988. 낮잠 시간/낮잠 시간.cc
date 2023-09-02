@@ -21,14 +21,22 @@ typedef long long ll;
 int n, b, num[3005];
 int dp[3005][3005][2];
 
+// B는 잠을 잘수 있는 횟수
+// B만큼의 기회를 써서 자고 안자고를 탑다운 방식으로 내려감
+
 int topdown(int x, int y, int z) {
     if (y < 0) return -10;
     if (y == 0 || x > n) return 0;
     if (~dp[x][y][z]) return dp[x][y][z];
-    if (z) {
-        return dp[x][y][z] = max(topdown(x+1, y-1, 1), topdown(x+1, y, 0)) + num[x];
-    } else {
-        return dp[x][y][z] = max(topdown(x + 2, y - 2, 1), topdown(x + 1, y , 0));
+    if (z) { // 자는중
+        return dp[x][y][z] = max(
+                topdown(x+1, y-1, 1), // 자다가 또자면, 기회는 1번 차감됨
+                topdown(x+1, y, 0)) // 자다가 안자면, 기회는 그대로
+                        + num[x]; // 피로가 회복되었기 때문에 회복량을 더해줌
+    } else { // 안자는 중
+        return dp[x][y][z] = max(
+                topdown(x + 2, y - 2, 1), // 안자다 자면, 첫번째 잠에서는 피로를 회복하지 못하므로 건너뛰기
+                topdown(x + 1, y , 0)); // 안자고있었는데 또 안자면, 잘 기회는 그대로
     }
 }
 
