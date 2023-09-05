@@ -22,14 +22,7 @@ int main(void){
     int T;
     cin >> T;
 
-    int parent[1001];
-    vector<pii> v;
-
     while (T--) {
-        for (int i=0; i<1001; i++) {
-            parent[i] = i;
-        }
-        v.clear();
 
         int N, M;
         cin >> N >> M;
