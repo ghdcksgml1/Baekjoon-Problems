@@ -18,7 +18,7 @@ typedef long long ll;
 struct Node {
     int x;
     int y;
-    int z; // 들어온 방향 0: 가로, 1: 세로
+    int z; // 들어온 방향
     int val;
 };
 
@@ -68,35 +68,26 @@ int main(void) {
 
     while (!pq.empty()) {
         auto cur = pq.top();
-//        cout << "curX: " << cur.x << " ,curY: " << cur.y << " ,curVal:" << cur.val << '\n';
         pq.pop();
-//        if (cur.x == C[1].xx && cur.y == C[1].yy) {
-//            cout << cur.val << '\n';
-//
-//        }
         if (dist[cur.x][cur.y] != cur.val) continue;
         for (int k = 0; k < 4; k++) {
             if (cur.z == 0 && k == 1) continue;
             if (cur.z == 1 && k == 0) continue;
             if (cur.z == 2 && k == 3) continue;
             if (cur.z == 3 && k == 2) continue;
+
             int nx = cur.x + dx[k];
             int ny = cur.y + dy[k];
 
             if (nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
             if (graph[nx][ny] == '*') continue;
 
-            if ((cur.z == 2 || cur.z == 3) && (k == 0 || k == 1)) {
+            if (((cur.z == 2 || cur.z == 3) && (k == 0 || k == 1))
+                || ((cur.z == 0 || cur.z == 1) && (k == 2 || k == 3))) {
                 if (dist[nx][ny] <= cur.val + 1) continue;
                 dist[nx][ny] = cur.val + 1;
                 pq.push({nx, ny, k, cur.val + 1});
-            }
-            else if ((cur.z == 0 || cur.z == 1) && (k == 2 || k == 3)) {
-                if (dist[nx][ny] <= cur.val + 1) continue;
-                dist[nx][ny] = cur.val + 1;
-                pq.push({nx, ny, k, cur.val + 1});
-            }
-            else {
+            } else {
                 if (dist[nx][ny] < cur.val) continue;
                 dist[nx][ny] = cur.val;
                 pq.push({nx, ny, k, cur.val});
@@ -104,12 +95,6 @@ int main(void) {
         }
     }
 
-//    for (int i = 0; i < N; i++) {
-//        for (int j = 0; j < M; j++) {
-//            cout << dist[i][j]  << " ";
-//        }
-//        cout << "\n";
-//    }
     cout << dist[C[1].xx][C[1].yy] << '\n';
 
     return 0;
